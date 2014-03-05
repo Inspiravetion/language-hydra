@@ -1,0 +1,12 @@
+{
+  "name": "language-hydra",
+  "main": "./lib/language-hydra",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Hydra language support",
+  "license": "MIT",
+  "engines": {
+    "atom": "*",
+    "node": "*"
+  }
+}

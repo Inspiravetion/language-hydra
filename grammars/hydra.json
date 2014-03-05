@@ -1,0 +1,181 @@
+{
+    "fileTypes": [
+        "hy"
+    ],
+    "name": "hydra",
+    "patterns": [
+        {
+          "begin": "\\'",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.js"
+            }
+          },
+          "end": "\\'",
+          "endCaptures":{
+            "0":{
+              "name": "punctuation.definition.string.end.js"
+            }
+          },
+          "name": "string.quoted.single.js",
+          "patterns": [
+            {
+              "match": "\\\\(x\\h{2}|[0-2][0-7]{,2}|3[0-6][0-7]?|37[0-7]?|[4-7][0-7]?|.)",
+              "name": "constant.character.escape.js"
+            }
+          ]
+        },
+        {
+          "begin": "\"",
+          "beginCaptures":{
+            "0":{
+              "name": "punctuation.definition.string.begin.js"
+            }
+          },
+          "end": "\"",
+          "endCaptures":{
+            "0":{
+              "name": "punctuation.definition.string.end.js"
+            }
+          },
+          "name": "string.quoted.double.js",
+          "patterns": [
+            {
+              "match": "\\\\(x\\h{2}|[0-2][0-7]{,2}|3[0-6][0-7]|37[0-7]?|[4-7][0-7]?|.)",
+              "name": "constant.character.escape.js"
+            }
+          ]
+        },
+        {
+            "beginCaptures": {
+                "1": {
+                    "name": "storage.type.function.source.hydra"
+                },
+                "2": {
+                    "name": "entity.name.function.source.hydra"
+                },
+                "3": {
+                    "name": "punctuation.definition.parameters.begin.source.hydra"
+                }
+            },
+            "comment": "match regular function like: function myFunc(arg) { … }",
+            "begin": "\\b(function)\\s+([a-zA-Z_$]\\w*)?\\s*(\\()",
+            "end": "(\\))",
+            "endCaptures": {
+              "1":{
+                "name": "punctuation.definition.parameters.end.source.hydra"
+              }
+            },
+            "patterns": [
+              {
+                "include":"#function-params"
+              }
+            ],
+            "name": "meta.function.source.hydra"
+        },
+        {
+            "begin": "/\\*\\*(?!/)",
+            "captures": {
+                "0": {
+                    "name": "punctuation.definition.comment.source.hydra"
+                }
+            },
+            "end": "\\*/",
+            "name": "comment.block.documentation.source.hydra"
+        },
+        {
+            "captures": {
+                "1": {
+                    "name": "punctuation.definition.comment.js"
+                }
+            },
+            "match": "(//).*$\\n?",
+            "name": "comment.line.double-slash.source.hydra"
+        },
+        {
+            "comment": "keywords like 'from' 0 'to' 10 'do'...",
+            "match": "\\b(spawn|if|var|else|then|for|in|while|do|not|and|or|from|to|by|function|end|module|class|import|as|export|super|supers|this|return|operator|extends|private|either|wait_for|break|given|is|except)\\b",
+            "name": "keyword.control.source.hydra"
+        },
+        {
+            "beginCaptures": {
+                "1": {
+                    "name": "punctuation.definition.parameters.begin.source.hydra"
+                }
+            },
+            "comment": "match closure like: a = (arg1, arg2){ … }",
+            "begin": "[=(,:]\\s*(\\()",
+            "end": "(\\)\\{)",
+            "endCaptures": {
+              "1":{
+                "name": "punctuation.definition.parameters.end.source.hydra"
+              }
+            },
+            "patterns": [
+              {
+                "include":"#function-params"
+              }
+            ],
+            "name": "meta.function.source.hydra"
+        },
+        {
+            "match": "\\b((0(x|X)[0-9a-fA-F]+)|([0-9]+(\\.[0-9]+)?))\\b",
+            "name": "constant.numeric.source.hydra"
+        },
+        {
+            "match": "\\btrue\\b",
+            "name": "constant.language.boolean.true.source.hydra"
+        },
+        {
+            "match": "\\bfalse\\b",
+            "name": "constant.language.boolean.false.source.hydra"
+        },
+        {
+            "begin": "(?<=[=(:]|^|operator|return|&&|\\|\\||!)\\s*(/)(?![/*+{}?])",
+            "beginCaptures": {
+                "1": {
+                    "name": "punctuation.definition.string.begin.source.hydra"
+                }
+            },
+            "end": "(/)[igm]*",
+            "endCaptures": {
+                "1": {
+                    "name": "punctuation.definition.string.end.source.hydra"
+                }
+            },
+            "name": "string.regexp.source.hydra",
+            "patterns": [
+                {
+                    "match": "\\\\.",
+                    "name": "constant.character.escape.source.hydra"
+                }
+            ]
+        },
+        {
+            "comment": "operators + - /...",
+            "match": "(\\+|-|=|\\*|/|%|<-[^<-]|->[^->]|<[^<>]|[^<>]>)",
+            "name": "keyword.operator.source.hydra"
+        }
+    ],
+    "repository": {
+      "function-params": {
+        "patterns": [
+          {
+            "begin": "(?![\\s,)])",
+            "end": "(?=[,)])",
+            "patterns": [
+              {
+                "match": "\\G[$_a-zA-Z][$_a-zA-Z0-9]*",
+                "name": "variable.parameter.function.source.hydra"
+              },
+              {
+                "include": "$self"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "scopeName": "source.hydra",
+    "uuid": "bc954012-51f2-4fb7-af12-34819861d560"
+}
