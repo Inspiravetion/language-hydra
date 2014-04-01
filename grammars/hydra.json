@@ -5,6 +5,88 @@
     "name": "hydra",
     "patterns": [
         {
+            "begin": "\\b(var)\\b",
+            "beginCaptures": {
+              "0": {
+                "name": "keyword.control.source.hydra"
+              }
+            },
+            "end": "\n|(;|=)",
+            "endCaptures": {
+              "0": {
+                "name": "keyword.control.source.hydra"
+              }
+            },
+            "patterns": [
+              {
+                "include": "#var-instanciation-comma-list"
+              }
+            ],
+            "name": "source.hydra"
+        },
+        {
+            "begin": "\\b(for)\\b",
+            "beginCaptures": {
+              "0": {
+                "name": "keyword.control.source.hydra"
+              }
+            },
+            "end": "\\b(in)\\b",
+            "endCaptures": {
+              "0": {
+                "name": "keyword.control.source.hydra"
+              }
+            },
+            "patterns": [
+              {
+                "include": "#for-in-comma-list"
+              }
+            ],
+            "name": "source.hydra"
+        },
+        {
+            "beginCaptures": {
+                "1": {
+                    "name": "punctuation.definition.parameters.begin.source.hydra"
+                }
+            },
+            "comment": "match closure like: a = (arg1, arg2){ … }",
+            "begin": "(?<=[=])\\s*(\\()",
+            "end": "(\\)\\{)",
+            "endCaptures": {
+              "1":{
+                "name": "punctuation.definition.parameters.end.source.hydra"
+              }
+            },
+            "patterns": [
+              {
+                "include":"#function-params"
+              }
+            ],
+            "name": "meta.function.source.hydra"
+        },
+        {
+            "beginCaptures": {
+                "1": {
+                    "name": "punctuation.definition.parameters.begin.source.hydra"
+                }
+            },
+            "comment": "match closure like: a = (arg1, arg2){ … }",
+            "begin": "(?:[=*(,:]|by)\\s*(\\()",
+            "end": "(\\)\\{)",
+            "endCaptures": {
+              "1":{
+                "name": "punctuation.definition.parameters.end.source.hydra"
+              }
+            },
+            "patterns": [
+              {
+                "include":"#function-params"
+              }
+            ],
+            "name": "meta.function.source.hydra"
+        },
+        {
           "begin": "\\'",
           "beginCaptures": {
             "0": {
@@ -94,32 +176,11 @@
         },
         {
             "comment": "keywords like 'from' 0 'to' 10 'do'...",
-            "match": "\\b(spawn|if|var|else|then|for|in|while|do|not|and|or|from|to|by|function|end|module|class|import|as|export|super|supers|this|return|operator|extends|private|either|wait_for|break|given|is|except)\\b",
+            "match": "\\b(new|spawn|if|var|else|then|for|in|while|do|not|and|or|from|upto|through|by|function|end|module|class|import|as|export|super|supers|this|return|operator|extends|private|either|wait_for|break|continue|given|is|except|gen|yield|throw|close)\\b",
             "name": "keyword.control.source.hydra"
         },
         {
-            "beginCaptures": {
-                "1": {
-                    "name": "punctuation.definition.parameters.begin.source.hydra"
-                }
-            },
-            "comment": "match closure like: a = (arg1, arg2){ … }",
-            "begin": "[=(,:]\\s*(\\()",
-            "end": "(\\)\\{)",
-            "endCaptures": {
-              "1":{
-                "name": "punctuation.definition.parameters.end.source.hydra"
-              }
-            },
-            "patterns": [
-              {
-                "include":"#function-params"
-              }
-            ],
-            "name": "meta.function.source.hydra"
-        },
-        {
-            "match": "\\b((0(x|X)[0-9a-fA-F]+)|([0-9]+(\\.[0-9]+)?))\\b",
+            "match": "\\b((0(x|X|b|B)[0-9a-fA-F]+)|([0-9]+(\\.[0-9]+)?))\\b",
             "name": "constant.numeric.source.hydra"
         },
         {
@@ -153,8 +214,12 @@
         },
         {
             "comment": "operators + - /...",
-            "match": "(\\+|-|=|\\*|/|%|<-[^<-]|->[^->]|<[^<>]|[^<>]>)",
+            "match": "(<-|->|<|>|\\+|-|=|\\*|/|%)",
             "name": "keyword.operator.source.hydra"
+        },
+        {
+            "match": "(@)([a-zA-Z_$]\\w*)?",
+            "name": "variable.other.readwrite.instance.source.hydra"
         }
     ],
     "repository": {
@@ -167,6 +232,40 @@
               {
                 "match": "\\G[$_a-zA-Z][$_a-zA-Z0-9]*",
                 "name": "variable.parameter.function.source.hydra"
+              },
+              {
+                "include": "$self"
+              }
+            ]
+          }
+        ]
+      },
+      "var-instanciation-comma-list": {
+        "patterns": [
+          {
+            "begin": "(?![\\s,\n;=])",
+            "end": "(?=[\\s,\n;=])",
+            "patterns": [
+              {
+                "match": "\\G[$_a-zA-Z][$_a-zA-Z0-9]*",
+                "name": "variable.other.readwrite.instance.source.hydra"
+              },
+              {
+                "include": "$self"
+              }
+            ]
+          }
+        ]
+      },
+      "for-in-comma-list": {
+        "patterns": [
+          {
+            "begin": "(?![\\s,]|in)",
+            "end": "(?=[,]|in)",
+            "patterns": [
+              {
+                "match": "\\G[$_a-zA-Z][$_a-zA-Z0-9]*",
+                "name": "variable.other.readwrite.instance.source.hydra"
               },
               {
                 "include": "$self"
