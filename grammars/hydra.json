@@ -192,16 +192,16 @@
             "name": "constant.language.boolean.false.source.hydra"
         },
         {
-            "begin": "(?<=[=(:]|^|operator|return|&&|\\|\\||!)\\s*(/)(?![/*+{}?])",
+            "begin": "(?<=[=(:,]|^|operator|return|&&|\\|\\||!)\\s*(/)(?![/*+{}?])",
             "beginCaptures": {
                 "1": {
-                    "name": "punctuation.definition.string.begin.source.hydra"
+                    "name": "string.regexp.source.hydra"
                 }
             },
             "end": "(/)[igm]*",
             "endCaptures": {
                 "1": {
-                    "name": "punctuation.definition.string.end.source.hydra"
+                    "name": "string.regexp.source.hydra"
                 }
             },
             "name": "string.regexp.source.hydra",
